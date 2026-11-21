@@ -10,8 +10,20 @@ export class ApiError extends Error {
   }
 }
 
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined
+  ?? "/api").replace(/\/$/, "");
+
+function apiUrl(path: string): string {
+  if (apiBaseUrl === "/api") return path;
+  if (path === "/api") return apiBaseUrl;
+  if (path.startsWith("/api/")) {
+    return `${apiBaseUrl}${path.slice(4)}`;
+  }
+  return `${apiBaseUrl}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
 export async function api<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(path, {
+  const response = await fetch(apiUrl(path), {
     ...options,
     headers: { "Content-Type": "application/json", ...options?.headers },
   });

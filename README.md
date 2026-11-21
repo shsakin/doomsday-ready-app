@@ -111,3 +111,26 @@ erDiagram
 - If several minimum bundle combinations exist, one is returned.
 - Sample prerequisite links are sample data, not an official watch guide.
 - Missing prerequisite IDs are rejected with `400`.
+
+## Deploying with Vercel and Render
+
+1. Create a PostgreSQL database on Render or another managed PostgreSQL provider.
+2. Push this repository to GitHub.
+3. In Render, create a Web Service from the `server` directory.
+   - Runtime: Docker
+   - Docker context: `server`
+   - Dockerfile: `Dockerfile`
+   - Set `DATABASE_URL` to the provider connection string.
+   - Set `DATABASE_SSL=true`, `NODE_ENV=production`, `PORT=3000`, `SEED_ON_START=true`.
+   - Set `CORS_ORIGIN` to the Vercel frontend URL.
+4. Deploy the backend and verify `/api/health`.
+5. In Vercel, import the GitHub repository.
+   - Framework preset: Vite
+   - Root directory: `client`
+   - Build command: `npm run build`
+   - Output directory: `dist`
+   - Set `VITE_API_BASE_URL` to the Render service URL, for example `https://doomsday-api.onrender.com/api`.
+6. Redeploy the frontend after setting the environment variable.
+7. Update `CORS_ORIGIN` in Render to the exact Vercel URL and redeploy the backend if the URL changed.
+
+Never commit a real `.env`; keep secrets in Render and Vercel environment settings.
