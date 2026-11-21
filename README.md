@@ -133,4 +133,7 @@ erDiagram
 6. Redeploy the frontend after setting the environment variable.
 7. Update `CORS_ORIGIN` in Render to the exact Vercel URL and redeploy the backend if the URL changed.
 
+`VITE_API_BASE_URL` may be set to either the Render origin (`https://doomsday-ready-app.onrender.com`)
+or the origin with `/api` (`https://doomsday-ready-app.onrender.com/api`). The frontend normalizes both forms.
+
 Never commit a real `.env`; keep secrets in Render and Vercel environment settings.

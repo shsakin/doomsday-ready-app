@@ -10,8 +10,14 @@ export class ApiError extends Error {
   }
 }
 
-const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined
+const configuredApiBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined
   ?? "/api").replace(/\/$/, "");
+
+const apiBaseUrl = configuredApiBaseUrl === "/api"
+  ? "/api"
+  : configuredApiBaseUrl.endsWith("/api")
+    ? configuredApiBaseUrl
+    : `${configuredApiBaseUrl}/api`;
 
 function apiUrl(path: string): string {
   if (apiBaseUrl === "/api") return path;

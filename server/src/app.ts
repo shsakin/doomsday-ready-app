@@ -8,7 +8,23 @@ export function createApp() {
   const app = express();
 
   app.use(cors({
-    origin: process.env.CORS_ORIGIN?.split(",").map((origin) => origin.trim()) ?? true,
+    origin(origin, callback) {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+      const allowedOrigins = (process.env.CORS_ORIGIN ?? "")
+        .split(",")
+        .map((value) => value.trim())
+        .filter(Boolean);
+      if (allowedOrigins.length === 0
+        || allowedOrigins.includes(origin)
+        || (process.env.NODE_ENV !== "production" && origin.startsWith("http://localhost"))) {
+        callback(null, true);
+        return;
+      }
+      callback(new Error("Origin not allowed by CORS"));
+    },
   }));
   app.use(express.json());
 
