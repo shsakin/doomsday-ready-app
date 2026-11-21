@@ -117,9 +117,9 @@ erDiagram
 1. Create a PostgreSQL database on Render or another managed PostgreSQL provider.
 2. Push this repository to GitHub.
 3. In Render, create a Web Service from the `server` directory.
+   - Root Directory: `server`
    - Runtime: Docker
-   - Docker context: `server`
-   - Dockerfile: `Dockerfile`
+   - Dockerfile Path: `Dockerfile`
    - Set `DATABASE_URL` to the provider connection string.
    - Set `DATABASE_SSL=true`, `NODE_ENV=production`, `PORT=3000`, `SEED_ON_START=true`.
    - Set `CORS_ORIGIN` to the Vercel frontend URL.

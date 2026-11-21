@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Response } from "express";
 import { AppError } from "../errors.js";
 import { validateCinemaCreate } from "../validation/cinemaValidation.js";
 import * as service from "../services/cinemaService.js";
@@ -22,7 +22,7 @@ cinemasRouter.get("/:id", async (request, response) => {
   response.json(await service.getCinema(numericId(request.params.id)));
 });
 
-cinemasRouter.delete("/:id", async (request, response) => {
+cinemasRouter.delete("/:id", async (request, response: Response) => {
   await service.deleteCinema(numericId(request.params.id));
   response.status(204).send();
 });

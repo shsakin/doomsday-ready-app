@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Response } from "express";
 import { AppError, isDuplicateError } from "../errors.js";
 import { validateMovieCreate, validateMoviePatch } from "../validation/movieValidation.js";
 import * as service from "../services/movieService.js";
@@ -26,7 +26,7 @@ moviesRouter.patch("/:id", async (request, response) => {
   response.json(await service.updateMovie(numericId(request.params.id), validateMoviePatch(request.body)));
 });
 
-moviesRouter.delete("/:id", async (request, response) => {
+moviesRouter.delete("/:id", async (request, response: Response) => {
   await service.deleteMovie(numericId(request.params.id));
   response.status(204).send();
 });
