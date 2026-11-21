@@ -1,0 +1,268 @@
+{
+  "id": "bce0ca55-4ebf-491b-93ba-1a79db202fba",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.cinema_bundle_sizes": {
+      "name": "cinema_bundle_sizes",
+      "schema": "",
+      "columns": {
+        "cinema_id": {
+          "name": "cinema_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "size": {
+          "name": "size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "cinema_bundle_sizes_cinema_id_cinemas_id_fk": {
+          "name": "cinema_bundle_sizes_cinema_id_cinemas_id_fk",
+          "tableFrom": "cinema_bundle_sizes",
+          "tableTo": "cinemas",
+          "columnsFrom": [
+            "cinema_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "cinema_bundle_sizes_cinema_id_size_pk": {
+          "name": "cinema_bundle_sizes_cinema_id_size_pk",
+          "columns": [
+            "cinema_id",
+            "size"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "bundle_size_range": {
+          "name": "bundle_size_range",
+          "value": "\"cinema_bundle_sizes\".\"size\" BETWEEN 1 AND 500"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.cinemas": {
+      "name": "cinemas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "cinemas_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "cinemas_name_unique": {
+          "name": "cinemas_name_unique",
+          "columns": [
+            {
+              "expression": "lower(\"name\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.movie_prerequisites": {
+      "name": "movie_prerequisites",
+      "schema": "",
+      "columns": {
+        "movie_id": {
+          "name": "movie_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "prerequisite_id": {
+          "name": "prerequisite_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "movie_prerequisites_movie_id_movies_id_fk": {
+          "name": "movie_prerequisites_movie_id_movies_id_fk",
+          "tableFrom": "movie_prerequisites",
+          "tableTo": "movies",
+          "columnsFrom": [
+            "movie_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "movie_prerequisites_prerequisite_id_movies_id_fk": {
+          "name": "movie_prerequisites_prerequisite_id_movies_id_fk",
+          "tableFrom": "movie_prerequisites",
+          "tableTo": "movies",
+          "columnsFrom": [
+            "prerequisite_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "movie_prerequisites_movie_id_prerequisite_id_pk": {
+          "name": "movie_prerequisites_movie_id_prerequisite_id_pk",
+          "columns": [
+            "movie_id",
+            "prerequisite_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "no_self_prerequisite": {
+          "name": "no_self_prerequisite",
+          "value": "\"movie_prerequisites\".\"movie_id\" <> \"movie_prerequisites\".\"prerequisite_id\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.movies": {
+      "name": "movies",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "movies_id_seq",
+            "schema": "public",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "release_year": {
+          "name": "release_year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "runtime_minutes": {
+          "name": "runtime_minutes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "watched": {
+          "name": "watched",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {
+        "movies_title_unique": {
+          "name": "movies_title_unique",
+          "columns": [
+            {
+              "expression": "lower(\"title\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "movies_release_year_range": {
+          "name": "movies_release_year_range",
+          "value": "\"movies\".\"release_year\" BETWEEN 1900 AND 2100"
+        },
+        "movies_runtime_range": {
+          "name": "movies_runtime_range",
+          "value": "\"movies\".\"runtime_minutes\" BETWEEN 1 AND 300"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

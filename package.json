@@ -1,0 +1,15 @@
+{
+  "name": "doomsday-ready",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "build": "npm --prefix server run build && npm --prefix client run build",
+    "test": "npm --prefix server run test",
+    "seed": "npm --prefix server run seed",
+    "db:generate": "npm --prefix server run db:generate",
+    "migrate": "npm --prefix server run migrate"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
