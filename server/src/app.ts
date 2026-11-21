@@ -13,13 +13,16 @@ export function createApp() {
         callback(null, true);
         return;
       }
+      const normalizedOrigin = origin.replace(/\/$/, "");
       const allowedOrigins = (process.env.CORS_ORIGIN ?? "")
         .split(",")
         .map((value) => value.trim())
+        .map((value) => value.replace(/\/$/, ""))
         .filter(Boolean);
       if (allowedOrigins.length === 0
-        || allowedOrigins.includes(origin)
-        || (process.env.NODE_ENV !== "production" && origin.startsWith("http://localhost"))) {
+        || allowedOrigins.includes(normalizedOrigin)
+        || normalizedOrigin.endsWith(".vercel.app")
+        || (process.env.NODE_ENV !== "production" && normalizedOrigin.startsWith("http://localhost"))) {
         callback(null, true);
         return;
       }
